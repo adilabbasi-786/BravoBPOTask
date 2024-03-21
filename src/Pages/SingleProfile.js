@@ -25,9 +25,7 @@ const containerStyle = {
 
 export default function ProfilePage(item) {
   let { state } = useLocation();
-  console.log("state", state.user);
   const { id } = useParams();
-  console.log("id of profile", id);
   const [user, setUser] = useState(null);
   const [countryFlag, setCountryFlag] = useState(null);
 
@@ -40,7 +38,6 @@ export default function ProfilePage(item) {
         const countryFlagResponse = await fetch(
           `https://flagcdn.com/w80/${data.results[0].nat.toLowerCase()}.png`
         );
-        console.log("country", countryFlagResponse);
         // Set the flag URL
         setCountryFlag(countryFlagResponse.url);
       } catch (error) {
@@ -54,7 +51,6 @@ export default function ProfilePage(item) {
   if (!user) {
     return <div>Loading...</div>;
   }
-  console.log("item", item);
   return (
     <section style={{ backgroundColor: "#eee" }}>
       <MDBContainer className="py-5" key={user.id}>
@@ -64,10 +60,10 @@ export default function ProfilePage(item) {
               <MDBBreadcrumbItem>
                 <a href="/">Home</a>
               </MDBBreadcrumbItem>
-              <MDBBreadcrumbItem>
-                <a href="#">User</a>
+
+              <MDBBreadcrumbItem active>
+                {state.user.name.first} Profile
               </MDBBreadcrumbItem>
-              <MDBBreadcrumbItem active>User Profile</MDBBreadcrumbItem>
             </MDBBreadcrumb>
           </MDBCol>
         </MDBRow>
@@ -83,7 +79,6 @@ export default function ProfilePage(item) {
                   style={{ width: "150px" }}
                   fluid
                 />
-                <p className="text-muted mb-1">Full Stack Developer</p>
                 <div className="mb-4 d-flex align-items-center justify-content-center">
                   {countryFlag && (
                     <img
@@ -96,12 +91,6 @@ export default function ProfilePage(item) {
                     {state.user.name.title}, {state.user.name.first},{" "}
                     {state.user.name.last}
                   </p>
-                </div>
-                <div className="d-flex justify-content-center mb-2">
-                  <MDBBtn>Follow</MDBBtn>
-                  <MDBBtn outline className="ms-1">
-                    Message
-                  </MDBBtn>
                 </div>
               </MDBCardBody>
             </MDBCard>
