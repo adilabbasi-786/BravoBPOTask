@@ -40,45 +40,7 @@ export default function NavBar() {
           <MDBIcon icon="bars" fas />
         </MDBNavbarToggler>
 
-        <MDBCollapse navbar open={openBasic}>
-          <MDBNavbarNav className="mr-auto mb-2 mb-lg-0">
-            <MDBNavbarItem>
-              <MDBNavbarLink
-                active
-                aria-current="page"
-                href="/"
-                style={{ color: "white" }}
-              >
-                Home
-              </MDBNavbarLink>
-            </MDBNavbarItem>
-            <MDBNavbarItem>
-              <MDBNavbarLink
-                active
-                aria-current="page"
-                href="/login"
-                style={{ color: "white" }}
-              >
-                Login
-              </MDBNavbarLink>
-            </MDBNavbarItem>
-            <MDBNavbarItem>
-              <MDBNavbarLink href="#" style={{ color: "white" }}>
-                Link
-              </MDBNavbarLink>
-            </MDBNavbarItem>
-          </MDBNavbarNav>
-
-          <form className="d-flex input-group w-auto">
-            <input
-              type="search"
-              className="form-control"
-              placeholder="Search a Name"
-              aria-label="Search"
-            />
-            <MDBBtn color="primary">Search</MDBBtn>
-          </form>
-        </MDBCollapse>
+        <MDBCollapse navbar open={openBasic}></MDBCollapse>
       </MDBContainer>
     </MDBNavbar>
   );

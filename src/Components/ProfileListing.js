@@ -1,19 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { MDBListGroup, MDBListGroupItem } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
-import { MDBRadio, MDBInput } from "mdb-react-ui-kit"; // Import MDBInput for the search input
+import {
+  MDBRadio,
+  MDBInput,
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+} from "mdb-react-ui-kit";
 import {
   MDBPagination,
   MDBPaginationItem,
   MDBPaginationLink,
   MDBBtn,
 } from "mdb-react-ui-kit";
+import Card from "./Card";
 
 export default function ProfileListing({ item }) {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedGender, setSelectedGender] = useState("");
-  const [searchQuery, setSearchQuery] = useState(""); // State for the search query
+  const [searchQuery, setSearchQuery] = useState("");
   const itemsPerPage = 10;
 
   useEffect(() => {
@@ -28,7 +35,6 @@ export default function ProfileListing({ item }) {
     getData();
   }, []);
 
-  // Filter data based on selected gender and search query
   const filteredData = data.filter((item) => {
     const genderMatch = selectedGender === "" || item.gender === selectedGender;
     const nameMatch = item.name.first
@@ -37,7 +43,6 @@ export default function ProfileListing({ item }) {
     return genderMatch && nameMatch;
   });
 
-  // Calculate index of the first and last items to display
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
@@ -51,7 +56,6 @@ export default function ProfileListing({ item }) {
     setSelectedGender(gender === "all" ? "" : gender);
   };
 
-  // Function to handle changes in the search input field
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
   };
@@ -65,7 +69,6 @@ export default function ProfileListing({ item }) {
           maxWidth: "500px",
         }}
       >
-        {/* Search input */}
         <MDBInput
           type="search"
           label="Search by Name"
@@ -75,7 +78,6 @@ export default function ProfileListing({ item }) {
         <MDBBtn color="primary">Search</MDBBtn>
       </div>
       <div style={{ marginLeft: "450px", marginTop: "50px", display: "flex" }}>
-        {/* Gender radio buttons */}
         <MDBRadio
           name="gender"
           id="male"
@@ -100,27 +102,17 @@ export default function ProfileListing({ item }) {
           style={{ marginLeft: "50px" }}
         />
       </div>
-
-      <MDBListGroup style={{ minWidth: "8rem" }} light>
-        {currentItems.map((item, index) => (
-          <MDBListGroupItem
-            key={index}
-            className="d-flex justify-content-between align-items-center"
-            style={{ maxWidth: "80rem" }}
-          >
-            {console.log("name", item.name.first)}
-            {console.log("item value", item.id.value)}
-            <div style={{ marginLeft: "1%" }}>
-              <div className="fw-bold">{item.name.first}</div>
-              <div className="text-muted">{item.gender}</div>
-              <div className="text-muted">{item.email}</div>
-            </div>
-            <Link to={`/profilepage/${item.id.value}`} state={{ user: item }}>
-              <button>More Details</button>
-            </Link>
-          </MDBListGroupItem>
-        ))}
-      </MDBListGroup>
+      <MDBContainer>
+        <MDBRow>
+          {currentItems.map((item, index) => (
+            <MDBCol size="4" key={index}>
+              <Card user={item} />
+            </MDBCol>
+          ))}
+        </MDBRow>
+      </MDBContainer>
+      <MDBListGroup style={{ minWidth: "8rem" }} light></MDBListGroup>
+      <MDBListGroup style={{ minWidth: "8rem" }} light></MDBListGroup>
 
       <MDBPagination className="mb-1 ml-5 " style={{ marginLeft: "600px" }}>
         <MDBPaginationItem disabled={currentPage === 1}>
